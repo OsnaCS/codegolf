@@ -25,3 +25,4 @@ würde als 6 Zeichen (`[](){}`) zählen. Der Code ist übrigens C++.
 * 27 -> Rust, Lukas Kalbertodt
 * 42 -> Python, Niels Meyering
 * 44 -> C++, Lukas Kalbertodt
+* 49 -> Prolog, Christian Heiden
