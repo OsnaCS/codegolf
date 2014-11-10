@@ -20,3 +20,7 @@ Whitespace-Zeichen werden natürlich mitgezählt. Es zählt NUR die Definition d
     auto fun = [](){};
 
 würde als 6 Zeichen (`[](){}`) zählen. Der Code ist übrigens C++.
+
+## Bestenliste
+* 27 -> Rust, Lukas Kalbertodt
+* 44 -> C++, Lukas Kalbertodt
