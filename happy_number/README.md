@@ -1,4 +1,4 @@
-# `happy_number`: Primzahlentest
+# `happy_number`: Test auf Fröhlichkeit ^_^
 
 Es soll ein Test geschrieben werden, der true zurück gibt, wenn die übergebene Zahl eine fröhliche Zahl ist und false sonst. ( http://de.wikipedia.org/wiki/Fr%C3%B6hliche_Zahl )
 
