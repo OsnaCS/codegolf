@@ -6,3 +6,4 @@ Es soll wie in `is_prime` ein Ding erzeugt werden, was sich aufrufen lässt (als
 
 ## Bestenliste
 * 105 -> Rust, Lukas Kalbertodt
+* 71  -> Ruby, Rene Helmke
