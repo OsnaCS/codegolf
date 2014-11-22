@@ -12,11 +12,11 @@
 %% user friendly version (49)
 %% start with q(X) where X is your number in question
 
-%% this is zimply the call
+%% this is simply the call
 q(Z):-p(Z,2).
 
 %% this is the procedure
-q(Z,Z).
-q(Z,C):-not(0 is Z mod C),
+p(Z,Z).
+p(Z,C):-not(0 is Z mod C),
 		D is C+1,
-		q(Z,D).
+		p(Z,D).
