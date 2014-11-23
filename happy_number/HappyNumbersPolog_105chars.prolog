@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%                                                          %%
+%%                      106 CHARS                           %%
 %% This is a SWI-Prolog program that caluculates if a given %%
 %% Number is happy or not.                                  %%
 %% Start Program with h(Z) where Z is number in question.   %%
