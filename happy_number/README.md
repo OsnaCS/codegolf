@@ -7,3 +7,4 @@ Es soll wie in `is_prime` ein Ding erzeugt werden, was sich aufrufen lässt (als
 ## Bestenliste
 * 72  -> Ruby, Rene Helmke
 * 105 -> Rust, Lukas Kalbertodt
+* 106 -> Prolog, Christian Heiden
