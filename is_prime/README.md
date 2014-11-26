@@ -23,6 +23,10 @@ würde als 6 Zeichen (`[](){}`) zählen. Der Code ist übrigens C++.
 
 ## Bestenliste
 * 27 -> Rust, Lukas Kalbertodt
+* 29 -> Coffeescript, Niels Meyering
+* 29 -> Haskell, Niels Meyering
 * 42 -> Python, Niels Meyering
 * 44 -> C++, Lukas Kalbertodt
+* 45 -> Javascript, Christian Heiden
 * 49 -> Prolog, Christian Heiden
+* 61 -> Java, Christian Heiden
