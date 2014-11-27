@@ -1,4 +1,5 @@
 # Codegolf an der Uni Osnabrück
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/OsnaCS/codegolf?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Codegolf bezeichnet den Wettbewerb, ein möglichst kurzes Programm zu schreiben, welches eine feste Aufgabe erfüllt. "Kurz" meint dabei meist "möglichst wenig Zeichen".
 
