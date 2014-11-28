@@ -7,7 +7,7 @@ Es soll wie in `is_prime` ein Ding erzeugt werden, was sich aufrufen lässt (als
 ## Bestenliste
 * 69  -> Python, Lars Kiesow
 * 72  -> Ruby, Rene Helmke
-* 76  -> C, Lars Kiesow
+* 75  -> C, Lars Kiesow
 * 79  -> Erlang, Lars Kiesow
 * 82 -> Rust, Lukas Kalbertodt
 * 96 -> Javascript, Jochen Saalfeld
