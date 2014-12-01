@@ -17,6 +17,9 @@ void test(int num) {
 }
 
 int main() {
+  // for(int i = 1; i < 4000; i++) {
+  //   test(i);
+  // }
   test(3);
   test(4);
   test(8);
