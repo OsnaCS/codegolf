@@ -14,3 +14,4 @@ Allerdings dürfen keine externen Bibliotheken verwendet werden.
 
 ## Bestenliste
 * 215 -> C++, Lukas Kalbertodt
+* 177 -> Haskell, Niels Meyering
