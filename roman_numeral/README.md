@@ -13,6 +13,6 @@ Diesmal eine weitere Regel: Standardbibliotheken sind erlaubt! Dabei werden kein
 Allerdings dürfen keine externen Bibliotheken verwendet werden. 
 
 ## Bestenliste
-* 166 -> Ruby, Rene Helmke
+* 165 -> Ruby, Rene Helmke
 * 215 -> C++, Lukas Kalbertodt
 * 455 -> PROLOG, Christian Heiden
