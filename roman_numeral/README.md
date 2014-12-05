@@ -15,4 +15,4 @@ Allerdings dürfen keine externen Bibliotheken verwendet werden.
 ## Bestenliste
 * 165 -> Ruby, Rene Helmke
 * 215 -> C++, Lukas Kalbertodt
-* 455 -> PROLOG, Christian Heiden
+* 440 -> PROLOG, Christian Heiden

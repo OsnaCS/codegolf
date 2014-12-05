@@ -1,4 +1,4 @@
-%% 455 characters
+%% 440 characters
 %% author: Christian Heiden
 
 %% print symbols.
@@ -28,8 +28,5 @@ r(Z):-r(Z, 1).
 
 %% right recursive function.
 r(0,_).
-r(Z,P):-	A is Z mod 10,
-			Y is Z div 10,
-			R is P+2,r(Y,R),
-			o(A,P).
+r(Z,P):-A is Z mod 10,Y is Z div 10,R is P+2,r(Y,R),o(A,P).
 
