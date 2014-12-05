@@ -7,4 +7,4 @@
 
 
 # Call
-(1..3999).each { |i| print i.to_s<<"->"; f[i]; puts "" }
+(1..3999).each { |i| print i.to_s<<" -> "; f[i]; puts "" }
