@@ -16,6 +16,7 @@ Die Traversierung oben entspricht diesem Suchbaum:
 
 Es soll ein zufälliger Baum erzeugt werden, wobei nicht jeder Baum gleich wahrscheinlich sein muss. Aber: Jeder mögliche Baum soll irgendwann mal erzeugt werden. Es gibt C_n viele unterschiedliche Suchbäume, die alle irgendwann erzeugt werden sollen (C ist hier die [Catalan Number](http://en.wikipedia.org/wiki/Catalan_number)).
 
+Es dürfen Standardbibliotheken benutzt werden und auch Namen gekürzt werden. Diese `include`, `import`, `use` oder ähnliche Statements werden nicht mitgezählt.
 
 
 
