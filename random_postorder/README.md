@@ -20,3 +20,5 @@ Es soll ein zufälliger Baum erzeugt werden, wobei nicht jeder Baum gleich wahrs
 
 
 ## Bestenliste
+
+* 92 -> Lukas in Rust
