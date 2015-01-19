@@ -2,6 +2,7 @@
 #![allow(unstable)]
 
 use std::rand::random as r;
+type I = usize;
 // fn f(d: &[i32]) {
 //   // print!("CALL: ");
 //   // for e in d.iter() {
@@ -30,17 +31,35 @@ use std::rand::random as r;
 //   }
 // }
 
-fn g(a:u32,z:u32){if a<=z{let s=r::<u32>()%(z-a+1)+a;g(a,s-1);g(s+1,z);print!("{} ", s)}}
+// z inklusive
+// a=3, z=7 (Will: 3 + rand()%5)
+// a=3, z=4 -> JA ; a=3,z=3 -> JA ; a=3, z=2 -> NEIN   ===> a <= z
+// fn g(a:I,z:I){if a<=z{let s=r::<I>()%(z-a+1)+a;g(a,s-1);g(s+1,z);print!("{} ",s)}}
+// z exklusive
+// a=3, z=7 (Will: 3 + rand()%4)
+// a=3, z=4 -> JA ; a=3,z=3 -> NEIN ; a=3, z=2 -> NEIN  ====> a < z
+// fn g(a:I,z:I){if a<z{let s=r::<I>()%(z-a)+a;g(a,s-2);g(s+1,z);print!("{} ",s)}}
 
+
+// Hauptfunktion: Die ganze nächste Reihe wird gezählt. => 77
+fn g(a:I,z:I){if a<z{let s=r::<I>()%(z-a)+a;g(a,s);g(s+1,z);print!("{} ",s)}}
+
+
+// a <= z
+// a-1 < z
 
 fn main() {
-  let random_postorder = |&:n|g(1,n);
+  // Lambda zum Wrappen: Nur Definition zählt.
+  //                     |.............|  => 15
+  let random_postorder = |&:n:I|g(1,n+1);
 
-  for i in 1..10 {
-    print!("{} -> ", i);
-    random_postorder(i);
-    println!("");
-  }
+  random_postorder(9);
+
+  // for i in 1..10 {
+  //   print!("{} -> ", i);
+  //   random_postorder(i);
+  //   println!("");
+  // }
   
 
 
