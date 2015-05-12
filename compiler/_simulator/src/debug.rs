@@ -6,7 +6,9 @@
 //! memory dump and breakpoints.
 
 use cpu::{Cpu, Instr};
+use term_painter::{ToStyle, Color, Attr};
 use std::io;
+use std::io::prelude::*;
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum RunMode {
@@ -29,9 +31,17 @@ enum RunOk {
 
 pub type RunResult = Result<(RunOk, usize), RunErr>;
 
+const MAX_CYCLE_COUNT : usize = 20;
+
 pub struct Debugger {
     cpu: Cpu,
     run_mode: RunMode,
+
+    dump_regs: bool,
+    dump_mem: bool,
+    dump_instr: bool,
+
+    paused: bool,
 }
 
 impl Debugger {
@@ -39,6 +49,10 @@ impl Debugger {
         Debugger {
             cpu: Cpu::new(),
             run_mode: RunMode::Release,
+            dump_regs: true,
+            dump_mem: true,
+            dump_instr: true,
+            paused: true,
         }
     }
 
@@ -55,24 +69,85 @@ impl Debugger {
 
         let mut count = 0;
         loop {
-            self.cpu.dump_status();
-            let instr = self.cpu.cycle();
-            println!("##> {:?}", instr);
-            count += 1;
+            // wait for user input
+            if self.paused {
+                self.parse_commands();
+            }
+
+            let next_instr = self.cpu.next_instr();
+            if self.run_mode == RunMode::Debug {
+                if self.dump_regs {
+                    self.cpu.dump_regs();
+                }
+                if self.dump_mem {
+                    self.cpu.dump_mem(0, 16);
+                }
+                if self.dump_instr {
+                    Color::Green.with(|| print!("~~ Instr: "));
+                    match next_instr {
+                        None => println!("None"),
+                        Some(i) => println!("{}", i),
+                    }
+                }
+            }
+
 
             // break loop
-            match instr {
-                None => return Ok((RunOk::QuitInstr, count)),
-                Some(Instr::Invalid(opc)) => {
-                    return Err(RunErr::InvalidInstr(opc))
+            match next_instr {
+                None => {
+                    self.log_debug("QUT instruction was reached");
+                    return Ok((RunOk::QuitInstr, count))
                 },
-                _ => {},
+                Some(instr) => {
+                    // Execute current instruction
+                    self.cpu.cycle(instr);
+                    count += 1;
+                    match instr {
+                        Instr::Invalid(opc) => {
+                            self.log_debug("Invalid instruction encountered");
+                            return Err(RunErr::InvalidInstr(opc))
+                        },
+                        _ => {},
+                    }
+                },
             }
-            if count > 20 {
-                return Err(RunErr::MaxCycle(20));
+            if count > MAX_CYCLE_COUNT {
+                self.log_debug(&*format!(
+                    "Max cycle count reached ({})", MAX_CYCLE_COUNT));
+                return Err(RunErr::MaxCycle(MAX_CYCLE_COUNT));
             }
+        }
+    }
 
-            // self.cpu.show_mem();
+    fn parse_commands(&mut self) {
+        let mut stdin = io::stdin();
+        let mut line = String::new();
+        loop {
+            line.clear();
+            print!("> ");
+            io::stdout().flush();
+            stdin.read_line(&mut line);
+            line.pop(); // remove '\n'
+            let args : Vec<_> = line.split(" ").collect();
+            match &*args[0] {
+                "r" | "run" => {
+                    self.paused = false;
+                    break;
+                },
+                "s" | "step" => break,
+                "dregs" => self.cpu.dump_regs(),
+                "help" => {
+                    println!("Available commands:");
+                    println!("    help      Print this message");
+                    println!("    r, run    Run until breakpoint is reached");
+                    println!("    s, step   Execute one step");
+                    println!("    dregs     Print register");
+                },
+                "" => {},
+                c @ _ => {
+                    println!("Invalid command '{}'. Type 'help'", c);
+                },
+            }
         }
     }
 

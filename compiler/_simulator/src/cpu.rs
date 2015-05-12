@@ -1,10 +1,34 @@
 use std::io;
+use std::fmt::{self, Display, Formatter};
+use term_painter::{ToStyle, Color, Attr};
 
 #[derive(Debug, Clone, Copy)]
 pub enum Instr {
     Invalid(u8),
     NoArg(u8),
     SingleArg(u8, u16),
+}
+
+impl Instr {
+    pub fn size(&self) -> usize {
+        match *self {
+            Instr::Invalid(_) | Instr::NoArg (_) => 1,
+            Instr::SingleArg(_, _) => 3,
+        }
+    }
+}
+
+impl Display for Instr {
+    fn fmt(&self, f: &mut Formatter) -> Result<(), fmt::Error> {
+        match *self {
+            Instr::Invalid(opc) =>
+                write!(f, "Invalid ({})", opc),
+            Instr::NoArg(opc) =>
+                write!(f, "{:0<2x}", opc),
+            Instr::SingleArg(opc, x) =>
+                write!(f, "{:0<2x} {:0<4x}", opc, x),
+        }
+    }
 }
 
 pub struct Cpu {
@@ -41,59 +65,85 @@ impl Cpu {
     }
 
 
-    pub fn dump_status(&self) {
-        println!("AC: {}, PC: {}, mem[0..16]: {:?}",
-            self.ac, self.pc, &self.mem[0..16]);
+    pub fn dump_regs(&self) {
+        Color::Green.with(|| println!("AC: {}, PC: {}",
+            Color::White.paint(self.ac),
+            Color::White.paint(self.pc))
+        );
     }
 
+    pub fn dump_mem(&self, lo: u16, hi: u16) {
+        Color::Green.with(|| print!("mem[{}..{}]: ",
+            Color::White.paint(lo),
+            Color::White.paint(hi)));
+        for x in lo..hi {
+            print!("{:0<2x} ", self.mem[x as usize]);
+        }
+        println!("");
+    }
 
-    pub fn cycle(&mut self) -> Option<Instr> {
+    pub fn next_instr(&mut self) -> Option<Instr> {
         if !self.running {
-            return None;
+            None
+        } else {
+            let before_pc = self.pc;
+            let opc = self.bump();
+            let instr = match opc {
+                // NOP | QUT
+                0x00 | 0x01 => Instr::NoArg(opc),
+
+                // LDA | ADD
+                0x10 | 0x30 => Instr::SingleArg(opc, self.dbump()),
+
+                // OUTA
+                0xC0 => Instr::NoArg(opc),
+
+                _    => Instr::Invalid(opc),
+            };
+            self.pc = before_pc;
+            Some(instr)
+        }
+    }
+
+    pub fn cycle(&mut self, instr: Instr) {
+        if !self.running {
+            return;
         }
 
-        let opc = self.bump();
-        // println!("#> {}", opc);
-        let instr = match opc {
-            // NOP
-            0x00 => Instr::NoArg(opc),
-            // QUT
-            0x01 => {
-                self.running = false;
-                Instr::NoArg(opc)
-            },
+        self.pc += instr.size() as u16;
+        match instr {
+            Instr::NoArg(opc) => {
+                match opc {
+                    // NOP
+                    0x00 => {},
+                    // QUT
+                    0x01 => { self.running = false; },
+                    // OUTA
+                    0xC0 => {
+                        let ac = self.ac;
+                        self.output(ac);
+                    },
 
-            // LDA
-            0x10 => {
-                let x = self.dbump();
-                self.ac = self.mem_word(x);
-                Instr::SingleArg(opc, x)
-            }
+                    _ => panic!("Instruction not implemented!"),
+                }
 
-            // ADD
-            0x30 => {
-                let x = self.dbump();
-                self.ac += self.mem_word(x);
-                Instr::SingleArg(opc, x)
             },
+            Instr::SingleArg(opc, x) => {
+                match opc {
+                    // LDA
+                    0x10 => { self.ac = self.mem_word(x); }
+                    // ADD
+                    0x30 => { self.ac += self.mem_word(x); },
 
-            // OUTA
-            0xC0 => {
-                let ac = self.ac;
-                self.output(ac);
-                Instr::NoArg(opc)
+                    _ => panic!("Instruction not implemented!"),
+                }
             },
-            _    => {
-                self.running = false;
-                Instr::Invalid(opc)
-            },
+            Instr::Invalid(_) => { self.running = false; }
         };
-
-        Some(instr)
     }
 
     fn output(&mut self, data: u16) {
-        println!("> {}", data);
+        println!("> {}", Color::Yellow.paint(data));
     }
 
     fn mem_byte(&self, x: u16) -> u8 {

@@ -1,4 +1,5 @@
 extern crate docopt;
+extern crate term_painter;
 
 mod cpu;
 mod debug;

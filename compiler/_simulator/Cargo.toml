@@ -5,3 +5,4 @@ authors = ["Lukas Kalbertodt <lukas.kalbertodt@gmail.com>"]
 
 [dependencies]
 docopt = "*"
+term-painter = "*"
