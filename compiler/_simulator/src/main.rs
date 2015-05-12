@@ -1,8 +1,9 @@
 extern crate docopt;
 
 mod cpu;
+mod debug;
 
-use cpu::Cpu;
+use debug::{Debugger, RunMode};
 use std::fs::File;
 
 
@@ -18,15 +19,8 @@ Options:
 fn main() {
     let f = File::open("dummy.bin").unwrap();
 
+    let mut debug = Debugger::new();
+    let res = debug.run(f, RunMode::Release);
 
-    let mut cpu = Cpu::new();
-    cpu.load_program(f).unwrap();
-
-    let mut count = 0;
-    while cpu.cycle() && count < 20 {
-        cpu.show_mem();
-        count += 1;
-    }
-
-    println!("Exited after {} cycles", count);
+    println!("Exited with result {:?} ", res);
 }
