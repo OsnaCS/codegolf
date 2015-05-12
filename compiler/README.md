@@ -25,15 +25,17 @@ The instruction set was designed with the following goals: It shouldn't be too c
 
 The following is a summary of all instructions. `x` denotes an address (16 bit), `[x]` denotes "Data in memory at address `x`", "AC" means accumulator.
 
-| opc | mnem | arg | effect                       | description               |
-| 00  | NOP  |     |                              | Does nothing              |
-| 01  | QUT  |     |                              | Quits execution           |
-| 10  | LDA  | x   | AC <- [x]                    | Load [x] into AC          |
-| 20  | STA  | x   | [x] <- AC                    | Store AC into [x]         |
-| 30  | ADD  | x   | AC <- AC + [x]               | Adds [x] to AC            |
-| 40  | AND  | x   | AC <- AC & [x]               | Bitwise AND               |
-| 90  | JMPI | x   | PC <- x                      | Unconditional jump to x   |
-| 91  | JMP  | x   | PC <- [x]                    | Unconditional jump to [x] |
-| 92  | JZI  | x   | *if* AC = 0 *then* PC <- x   | Conditional jump to x     |
-| 93  | JZI  | x   | *if* AC = 0 *then* PC <- [x] | Conditional jump to [x]   |
-| C0  | OUTA |     |                              | Outputs AC                |
+| opc | mnem | arg | effect                       | description                  |
+| 00  | NOP  |     |                              | Does nothing                 |
+| 01  | QUT  |     |                              | Quits execution              |
+| 10  | LDA  | x   | AC <- [x]                    | Load [x] into AC             |
+| 20  | STA  | x   | [x] <- AC                    | Store AC into [x]            |
+| 30  | ADD  | x   | AC <- AC + [x]               | Adds [x] to AC               |
+| 38  | COM  |     | AC <- ~AC                    | Ones complement, bitwise not |
+| 39  | NEG  |     | AC <- ~AC + 1                | Twos complement              |
+| 40  | AND  | x   | AC <- AC & [x]               | Bitwise AND                  |
+| 90  | JMPI | x   | PC <- x                      | Unconditional jump to x      |
+| 91  | JMP  | x   | PC <- [x]                    | Unconditional jump to [x]    |
+| 92  | JZI  | x   | *if* AC = 0 *then* PC <- x   | Conditional jump to x        |
+| 93  | JZI  | x   | *if* AC = 0 *then* PC <- [x] | Conditional jump to [x]      |
+| C0  | OUTA |     |                              | Outputs AC                   |

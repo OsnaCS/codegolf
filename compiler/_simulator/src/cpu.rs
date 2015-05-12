@@ -92,8 +92,12 @@ impl Cpu {
                 // NOP | QUT
                 0x00 | 0x01 => Instr::NoArg(opc),
 
-                // LDA | ADD
-                0x10 | 0x30 => Instr::SingleArg(opc, self.dbump()),
+                // LDA | STA | COM | NEG | ADD | AND
+                0x10 | 0x20 | 0x30 | 0x31 | 0x38 | 0x39 | 0x40 =>
+                    Instr::SingleArg(opc, self.dbump()),
+
+                // JMPI JMP JZI JZI
+                0x90 ... 0x93 => Instr::SingleArg(opc, self.dbump()),
 
                 // OUTA
                 0xC0 => Instr::NoArg(opc),
@@ -131,9 +135,25 @@ impl Cpu {
             Instr::SingleArg(opc, x) => {
                 match opc {
                     // LDA
-                    0x10 => { self.ac = self.mem_word(x); }
+                    0x10 => { self.ac = self.mem_word(x); },
+                    // STA
+                    0x20 => {},
                     // ADD
                     0x30 => { self.ac += self.mem_word(x); },
+                    // SUB
+                    0x31 => { self.ac -= self.mem_word(x); },
+                    // COM
+                    0x38 => { self.ac = !self.ac; }
+                    // NEG
+                    0x39 => { self.ac = !self.ac + 1; }
+                    // AND
+                    0x40 => { self.ac &= self.mem_word(x); },
+
+                    // JMPI
+                    0x90 => { self.pc = x; },
+                    0x91 => { self.pc = self.mem_word(x); },
+                    0x92 => { if self.ac == 0 { self.pc = x; } },
+                    0x93 => { if self.ac == 0 { self.pc = self.mem_word(x); } },
 
                     _ => panic!("Instruction not implemented!"),
                 }

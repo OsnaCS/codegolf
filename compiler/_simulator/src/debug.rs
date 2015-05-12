@@ -31,7 +31,7 @@ enum RunOk {
 
 pub type RunResult = Result<(RunOk, usize), RunErr>;
 
-const MAX_CYCLE_COUNT : usize = 20;
+const MAX_CYCLE_COUNT : usize = 200;
 
 pub struct Debugger {
     cpu: Cpu,
@@ -70,7 +70,7 @@ impl Debugger {
         let mut count = 0;
         loop {
             // wait for user input
-            if self.paused {
+            if self.paused && self.run_mode == RunMode::Debug {
                 self.parse_commands();
             }
 
