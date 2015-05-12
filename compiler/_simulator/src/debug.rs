@@ -8,6 +8,7 @@
 use cpu::Cpu;
 use std::io;
 
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum RunMode {
     Debug,
     Release
@@ -29,16 +30,22 @@ pub type RunResult = Result<RunOk, RunErr>;
 
 pub struct Debugger {
     cpu: Cpu,
+    run_mode: RunMode,
 }
 
 impl Debugger {
     pub fn new() -> Debugger {
         Debugger {
             cpu: Cpu::new(),
+            run_mode: RunMode::Release,
         }
     }
 
-    pub fn run<R: io::Read>(&mut self, prog: R, mode: RunMode) -> RunResult {
+    pub fn set_run_mode(&mut self, mode: RunMode) {
+        self.run_mode = mode;
+    }
+
+    pub fn run<R: io::Read>(&mut self, prog: R) -> RunResult {
         match self.cpu.load_program(prog) {
             Err(e) => return Err(RunErr::Io(e)),
             _ => self.log_debug("Loaded program into CPU"),
@@ -63,7 +70,9 @@ impl Debugger {
         }
     }
 
-    fn log_debug(&self, m: &str) {
-        println!("~> DEBUG: {}", m);
+    pub fn log_debug(&self, m: &str) {
+        if self.run_mode == RunMode::Debug {
+            println!("~> DEBUG: {}", m);
+        }
     }
 }
