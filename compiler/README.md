@@ -35,4 +35,5 @@ The following is a summary of all instructions. `x` denotes an address (16 bit),
 | 90  | JMPI | x   | PC <- x                      | Unconditional jump to x   |
 | 91  | JMP  | x   | PC <- [x]                    | Unconditional jump to [x] |
 | 92  | JZI  | x   | *if* AC = 0 *then* PC <- x   | Conditional jump to x     |
-| 92  | JZI  | x   | *if* AC = 0 *then* PC <- [x] | Conditional jump to [x]   |
+| 93  | JZI  | x   | *if* AC = 0 *then* PC <- [x] | Conditional jump to [x]   |
+| C0  | OUTA |     |                              | Outputs AC                |

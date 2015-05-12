@@ -5,7 +5,7 @@
 //! control via command line with many features such as register and
 //! memory dump and breakpoints.
 
-use cpu::Cpu;
+use cpu::{Cpu, Instr};
 use std::io;
 
 #[derive(Debug, PartialEq, Clone, Copy)]
@@ -18,6 +18,7 @@ pub enum RunMode {
 enum RunErr {
     Io(io::Error),  // IO error occured
     MaxCycle(usize),    // Number of cycle limit was reached
+    InvalidInstr(u8)    // Invalid instruction
 }
 
 #[derive(Debug)]
@@ -26,7 +27,7 @@ enum RunOk {
     QuitInstr,  // a QUT instruction was executed
 }
 
-pub type RunResult = Result<RunOk, RunErr>;
+pub type RunResult = Result<(RunOk, usize), RunErr>;
 
 pub struct Debugger {
     cpu: Cpu,
@@ -54,19 +55,24 @@ impl Debugger {
 
         let mut count = 0;
         loop {
-            let quit = self.cpu.cycle();
+            self.cpu.dump_status();
+            let instr = self.cpu.cycle();
+            println!("##> {:?}", instr);
             count += 1;
 
             // break loop
-            if quit {
-                return Ok(RunOk::QuitInstr);
+            match instr {
+                None => return Ok((RunOk::QuitInstr, count)),
+                Some(Instr::Invalid(opc)) => {
+                    return Err(RunErr::InvalidInstr(opc))
+                },
+                _ => {},
             }
             if count > 20 {
                 return Err(RunErr::MaxCycle(20));
             }
 
-
-            self.cpu.show_mem();
+            // self.cpu.show_mem();
         }
     }
 

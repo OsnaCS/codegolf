@@ -1,11 +1,19 @@
 use std::io;
 
+#[derive(Debug, Clone, Copy)]
+pub enum Instr {
+    Invalid(u8),
+    NoArg(u8),
+    SingleArg(u8, u16),
+}
+
 pub struct Cpu {
     mem: Vec<u8>,
     ac: u16,
     pc: u16,
     running: bool,
 }
+
 
 impl Cpu {
     pub fn new() -> Cpu {
@@ -32,30 +40,72 @@ impl Cpu {
         Ok(())
     }
 
-    pub fn show_mem(&self) {
-        println!("MEM: {:?}", &self.mem[..16]);
+
+    pub fn dump_status(&self) {
+        println!("AC: {}, PC: {}, mem[0..16]: {:?}",
+            self.ac, self.pc, &self.mem[0..16]);
     }
 
-    pub fn cycle(&mut self) -> bool {
+
+    pub fn cycle(&mut self) -> Option<Instr> {
         if !self.running {
-            return false;
+            return None;
         }
 
-        match self.bump() {
+        let opc = self.bump();
+        // println!("#> {}", opc);
+        let instr = match opc {
             // NOP
-            0x00 => {},
+            0x00 => Instr::NoArg(opc),
             // QUT
-            0x01 => self.running = false,
+            0x01 => {
+                self.running = false;
+                Instr::NoArg(opc)
+            },
 
-            _    => {},
+            // LDA
+            0x10 => {
+                let x = self.dbump();
+                self.ac = self.mem_word(x);
+                Instr::SingleArg(opc, x)
+            }
+
+            // ADD
+            0x30 => {
+                let x = self.dbump();
+                self.ac += self.mem_word(x);
+                Instr::SingleArg(opc, x)
+            },
+
+            // OUTA
+            0xC0 => {
+                let ac = self.ac;
+                self.output(ac);
+                Instr::NoArg(opc)
+            },
+            _    => {
+                self.running = false;
+                Instr::Invalid(opc)
+            },
         };
 
-        true
+        Some(instr)
     }
 
+    fn output(&mut self, data: u16) {
+        println!("> {}", data);
+    }
+
+    fn mem_byte(&self, x: u16) -> u8 {
+        self.mem[x as usize]
+    }
+    fn mem_word(&self, x: u16) -> u16 {
+        (self.mem[x as usize] as u16) << 8 |
+            self.mem[x as usize + 1] as u16
+    }
 
     fn bump(&mut self) -> u8 {
-        let out = self.mem[self.pc as usize];
+        let out = self.mem_byte(self.pc);
 
         // FIXME: Overflow is wanted here. Tell rust to not check for
         // overflows. For now a simple workaround.
@@ -63,6 +113,20 @@ impl Cpu {
             self.pc = 0;
         } else {
             self.pc += 1;
+        }
+        out
+    }
+
+    fn dbump(&mut self) -> u16 {
+        let out = (self.mem[self.pc as usize] as u16) << 8 |
+            self.mem[self.pc as usize + 1] as u16;
+
+        // FIXME: Overflow is wanted here. Tell rust to not check for
+        // overflows. For now a simple workaround.
+        if self.pc >= 0xFFFE {
+            self.pc -= 0xFFFE;
+        } else {
+            self.pc += 2;
         }
         out
     }
