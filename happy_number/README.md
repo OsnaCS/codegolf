@@ -6,6 +6,7 @@ Es soll wie in `is_prime` ein Ding erzeugt werden, was sich aufrufen lässt (als
 
 ## Bestenliste
 * 69  -> Python, Lars Kiesow
+* 69  -> Ruby, Tobias Münch
 * 72  -> Ruby, Rene Helmke
 * 75  -> C, Lars Kiesow
 * 79  -> Erlang, Lars Kiesow
