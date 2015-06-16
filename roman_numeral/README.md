@@ -10,8 +10,10 @@ Diesmal eine weitere Regel: Standardbibliotheken sind erlaubt! Dabei werden kein
     #include <iostream>
     using namespace std;
 
-Allerdings dürfen keine externen Bibliotheken verwendet werden. 
+Allerdings dürfen keine externen Bibliotheken verwendet werden.
 
 ## Bestenliste
+* 123 -> Ruby, Rene Helmke
+* 158 -> Haskell, Niels Meyering
 * 215 -> C++, Lukas Kalbertodt
-* 177 -> Haskell, Niels Meyering
+* 440 -> PROLOG, Christian Heiden
