@@ -14,6 +14,7 @@ Allerdings dürfen keine externen Bibliotheken verwendet werden.
 
 ## Bestenliste
 * 123 -> Ruby, Rene Helmke
+* 131 -> Ruby, Tobias Münch
 * 158 -> Haskell, Niels Meyering
 * 215 -> C++, Lukas Kalbertodt
 * 440 -> PROLOG, Christian Heiden
