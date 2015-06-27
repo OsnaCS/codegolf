@@ -13,7 +13,7 @@ Beispiel Java-Code:
       return true;
     }
 
-Diese Lösung ist 118 Zeichen lang. 
+Diese Lösung ist 118 Zeichen lang.
 
 Whitespace-Zeichen werden natürlich mitgezählt. Es zählt NUR die Definition des "Objekts" (meist Funktion). Aufruf des Objekts oder Ausgabe zählen nicht. Im Falle, dass man ein Funktionen-Objekt erstellt und es einer Variable zuweist, wird die Zuweisung nicht mitgezählt. Also
 
@@ -31,3 +31,4 @@ würde als 6 Zeichen (`[](){}`) zählen. Der Code ist übrigens C++.
 * 45 -> Javascript, Christian Heiden
 * 49 -> Prolog, Christian Heiden
 * 61 -> Java, Christian Heiden
+* 59 -> Erlang, Kevin Seidel
