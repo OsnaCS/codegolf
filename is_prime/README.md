@@ -31,4 +31,4 @@ würde als 6 Zeichen (`[](){}`) zählen. Der Code ist übrigens C++.
 * 45 -> Javascript, Christian Heiden
 * 49 -> Prolog, Christian Heiden
 * 61 -> Java, Christian Heiden
-* 59 -> Erlang, Kevin Seidel
+* 47 -> Erlang, Kevin Seidel
