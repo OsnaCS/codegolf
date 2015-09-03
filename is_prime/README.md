@@ -22,6 +22,7 @@ Whitespace-Zeichen werden natürlich mitgezählt. Es zählt NUR die Definition d
 würde als 6 Zeichen (`[](){}`) zählen. Der Code ist übrigens C++.
 
 ## Bestenliste
+* 17 -> Julia, Joris Clement
 * 25 -> Rust, Lukas Kalbertodt
 * 29 -> Coffeescript, Niels Meyering
 * 29 -> Haskell, Niels Meyering
