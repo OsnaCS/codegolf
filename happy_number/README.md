@@ -5,6 +5,7 @@ Es soll ein Test geschrieben werden, der true zurück gibt, wenn die übergebene
 Es soll wie in `is_prime` ein Ding erzeugt werden, was sich aufrufen lässt (also Funktion oder Funktor oder so). Weitere Regeln gibt es in `is_prime/README.md`. Eine Sonderregel gilt allerdings: Man darf keine String-Funktionalität nutzen, um die einzelnen Ziffern einer Zahl zu bekommen!
 
 ## Bestenliste
+* 36  -> Julia, Joris Clement
 * 69  -> Python, Lars Kiesow
 * 69  -> Ruby, Tobias Münch
 * 72  -> Ruby, Rene Helmke
